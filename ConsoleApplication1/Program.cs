@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace ConsoleApplication1
 {
-    [Task(warmupIterationCount: 1, targetIterationCount:1, processCount:1, jitVersion: BenchmarkJitVersion.LegacyJit)]
+    [Task(warmupIterationCount: 1, targetIterationCount:1, processCount:1, jitVersion: BenchmarkJitVersion.CurrentJit)]
     public class Program
     {
         private string str1 = "xxxxxxx1";
@@ -37,6 +37,7 @@ namespace ConsoleApplication1
         private Dictionary<Tuple<string, int>, Tuple<string, int>> dict = new Dictionary<Tuple<string, int>, Tuple<string, int>>();
         private Dictionary<ImprovedTuple<string, int>, ImprovedTuple<string, int>> idict = new Dictionary<ImprovedTuple<string, int>, ImprovedTuple<string, int>>();
         private Dictionary<StructTuple<string, int>, StructTuple<string, int>> sdict = new Dictionary<StructTuple<string, int>, StructTuple<string, int>>();
+        private Dictionary<string, string> strdict = new Dictionary<string, string>();
 
         public Program()
         {
@@ -52,6 +53,7 @@ namespace ConsoleApplication1
             this.dict[tuple1] = tuple2;
             this.idict[ituple1] = ituple2;
             this.sdict[stuple1] = stuple2;
+            this.strdict[str1] = str2;
         }
 
         static void Main(string[] args)
@@ -67,27 +69,27 @@ namespace ConsoleApplication1
         }
 
         [Benchmark]
-        public void TupleEquals()
-        {
-            var val = tuple1.Equals(tuple2);
-        }
-
-        [Benchmark]
         public void StructTupleGetHashCode()
         {
             var val = stuple1.GetHashCode();
         }
 
         [Benchmark]
-        public void StructTupleEquals()
-        {
-            var val = stuple1.Equals(stuple2);
-        }
-
-        [Benchmark]
         public void ImpovedTupleGetHashCode()
         {
             var val = ituple1.GetHashCode();
+        }
+
+        [Benchmark]
+        public void TupleEquals()
+        {
+            var val = tuple1.Equals(tuple2);
+        }
+
+        [Benchmark]
+        public void StructTupleEquals()
+        {
+            var val = stuple1.Equals(stuple2);
         }
 
         [Benchmark]
@@ -149,6 +151,12 @@ namespace ConsoleApplication1
         public void StructDictionaryContainsKey()
         {
             this.sdict.ContainsKey(new StructTuple<string, int>(str1, i1));
+        }
+
+        [Benchmark]
+        public void StringDictionaryContainsKey()
+        {
+            this.strdict.ContainsKey(str1);
         }
     }
 

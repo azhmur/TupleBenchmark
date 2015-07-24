@@ -2,11 +2,13 @@
 Considering different options for fixing bad performance of default tuple implementation
 
 // BenchmarkDotNet=v0.7.6.0
+
 // OS=Microsoft Windows NT 6.2.9200.0
+
 // Processor=Intel(R) Core(TM) i5-2500K CPU @ 3.30GHz, ProcessorCount=4
-// CLR=MS.NET 4.0.30319.42000, Arch=64-bit  [RyuJIT]
-Common:  Type=Program  Mode=Throughput  Platform=CurrentPlatform  Jit=LegacyJit
- .NET=Current
+
+// CLR=MS.NET 4.0.30319.42000, Arch=64-bit  [RyuJIT] Common:  Type=Program  Mode=Throughput  Platform=CurrentPlatform  Jit=LegacyJit  .NET=Current
+
 
                             Method |   AvrTime |      StdDev |        op/s |
 ---------------------------------- |---------- |------------ |------------ |

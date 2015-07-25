@@ -39,6 +39,9 @@ namespace ConsoleApplication1
         private Dictionary<ImprovedTuple<string, int>, ImprovedTuple<string, int>> idict = new Dictionary<ImprovedTuple<string, int>, ImprovedTuple<string, int>>();
         private Dictionary<StructTuple<string, int>, StructTuple<string, int>> sdict = new Dictionary<StructTuple<string, int>, StructTuple<string, int>>();
         private Dictionary<string, string> strdict = new Dictionary<string, string>();
+        private Dictionary<ImprovedTuple<string, int>, ImprovedTuple<string, int>> idictBig;
+        private Dictionary<StructTuple<string, int>, StructTuple<string, int>> sdictBig;
+        private Dictionary<Tuple<string, int>, Tuple<string, int>> dictBig;
 
         public Program()
         {
@@ -55,6 +58,19 @@ namespace ConsoleApplication1
             this.idict[ituple1] = ituple2;
             this.sdict[stuple1] = stuple2;
             this.strdict[str1] = str2;
+            this.idictBig = new Dictionary<ImprovedTuple<string, int>, ImprovedTuple<string, int>>(4096, iComparer);
+            this.sdictBig = new Dictionary<StructTuple<string, int>, StructTuple<string, int>>(4096, sComparer2);
+            this.dictBig = new Dictionary<Tuple<string, int>, Tuple<string, int>>(4096, EqualityComparer<Tuple<string, int>>.Default);
+            var rand = new Random(1234);
+            for (int i = 0; i < 2048; i++)
+            {
+                idictBig.Add(new ImprovedTuple<string, int>(rand.Next().ToString(), i), new ImprovedTuple<string, int>(i.ToString(), i));
+                sdictBig.Add(new StructTuple<string, int>(rand.Next().ToString(), i), new StructTuple<string, int>(i.ToString(), i));
+                dictBig.Add(new Tuple<string, int>(rand.Next().ToString(), i), new Tuple<string, int>(i.ToString(), i));
+            }
+            idictBig.Add(ituple1, ituple2);
+            sdictBig.Add(stuple1, stuple2);
+            dictBig.Add(tuple1, tuple2);
         }
 
         static void Main(string[] args)
@@ -182,6 +198,24 @@ namespace ConsoleApplication1
         public void StringDictionaryContainsKey()
         {
             this.strdict.ContainsKey(str1);
+        }
+
+        [Benchmark]
+        public void BigDictionaryContainsKey()
+        {
+            this.dictBig.ContainsKey(Tuple.Create(str1, i1));
+        }
+
+        [Benchmark]
+        public void BigImprovedDictionaryContainsKey()
+        {
+            this.idictBig.ContainsKey(new ImprovedTuple<string, int>(str1, i1));
+        }
+
+        [Benchmark]
+        public void BigStructDictionaryContainsKey()
+        {
+            this.sdictBig.ContainsKey(new StructTuple<string, int>(str1, i1));
         }
     }
 

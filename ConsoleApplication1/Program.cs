@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace ConsoleApplication1
 {
-    [Task(warmupIterationCount: 1, targetIterationCount:1, processCount:1, jitVersion: BenchmarkJitVersion.CurrentJit)]
+    [Task(warmupIterationCount: 0, targetIterationCount:1, processCount:1, jitVersion: BenchmarkJitVersion.CurrentJit)]
     public class Program
     {
         private string str1 = "xxxxxxx1";
@@ -33,6 +33,7 @@ namespace ConsoleApplication1
         private EqualityComparer<StructTuple<string, int>> sComparer = EqualityComparer<StructTuple<string, int>>.Default;
         private IEqualityComparer<StructTuple<string, int>> sComparer2 = new StructTupleComparer<string, int>();
         private IEqualityComparer<ImprovedTuple<string, int>> iComparer = EqualityComparer<ImprovedTuple<string, int>>.Default;
+        private IEqualityComparer<Tuple<string, int>> tComparer = EqualityComparer<Tuple<string, int>>.Default;
 
         private Dictionary<Tuple<string, int>, Tuple<string, int>> dict = new Dictionary<Tuple<string, int>, Tuple<string, int>>();
         private Dictionary<ImprovedTuple<string, int>, ImprovedTuple<string, int>> idict = new Dictionary<ImprovedTuple<string, int>, ImprovedTuple<string, int>>();
@@ -118,6 +119,12 @@ namespace ConsoleApplication1
         public void ImpovedTupleEqualsCachedComparer()
         {
             var val = iComparer.Equals(ituple1, ituple2);
+        }
+
+        [Benchmark]
+        public void TupleEqualsCachedComparer()
+        {
+            var val = tComparer.Equals(tuple1, tuple2);
         }
 
         [Benchmark]
@@ -262,48 +269,6 @@ namespace ConsoleApplication1
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         [Pure]
         public bool Equals(StructTuple<T1, T2> other)
-        {
-            return comparer1.Equals(this.Item1, other.Item1) && comparer2.Equals(this.Item2, other.Item2);
-        }
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        [Pure]
-        public override int GetHashCode()
-        {
-            var h1 = comparer1.GetHashCode(this.Item1);
-            return (h1 << 5 - h1) ^ comparer2.GetHashCode(this.Item2);
-        }
-    }
-
-    public sealed class ImprovedTuple<T1, T2> : IEquatable<ImprovedTuple<T1, T2>>
-    {
-        private static readonly EqualityComparer<T1> comparer1 = EqualityComparer<T1>.Default;
-        private static readonly EqualityComparer<T2> comparer2 = EqualityComparer<T2>.Default;
-
-
-        public T1 Item1 {[MethodImpl(MethodImplOptions.AggressiveInlining)] get; private set; }
-
-        public T2 Item2 {[MethodImpl(MethodImplOptions.AggressiveInlining)] get; private set; }
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public ImprovedTuple(T1 item1, T2 item2)
-        {
-            this.Item1 = item1;
-            this.Item2 = item2;
-        }
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        [Pure]
-        public override bool Equals(object obj)
-        {
-            var other = (ImprovedTuple<T1, T2>)obj;
-
-            return comparer1.Equals(this.Item1, other.Item1) && comparer2.Equals(this.Item2, other.Item2);
-        }
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        [Pure]
-        public bool Equals(ImprovedTuple<T1, T2> other)
         {
             return comparer1.Equals(this.Item1, other.Item1) && comparer2.Equals(this.Item2, other.Item2);
         }

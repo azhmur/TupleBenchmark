@@ -154,6 +154,24 @@ namespace ConsoleApplication1
         }
 
         [Benchmark]
+        public void DictionaryExpand()
+        {
+            this.dict[Tuple.Create(str1, ++i1)] = Tuple.Create(str2, ++i2);
+        }
+
+        [Benchmark]
+        public void ImprovedDictionaryExpand()
+        {
+            this.idict[new ImprovedTuple<string, int>(str1, ++i1)] = new ImprovedTuple<string, int>(str2, ++i2);
+        }
+
+        [Benchmark]
+        public void StructDictionaryExpand()
+        {
+            this.sdict[new StructTuple<string, int>(str1, ++i1)] = new StructTuple<string, int>(str2, ++i2);
+        }
+
+        [Benchmark]
         public void StringDictionaryContainsKey()
         {
             this.strdict.ContainsKey(str1);

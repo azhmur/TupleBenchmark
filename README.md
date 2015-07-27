@@ -1,33 +1,36 @@
 # TupleBenchmark
 Considering different options for fixing bad performance of default tuple implementation
 
-BenchmarkDotNet=v0.7.6.0
+// BenchmarkDotNet=v0.7.6.0
 
-OS=Microsoft Windows NT 6.2.9200.0
+// OS=Microsoft Windows NT 6.1.7601 Service Pack 1
 
-Processor=Intel(R) Core(TM) i5-2500K CPU @ 3.30GHz, ProcessorCount=4
+// Processor=Intel(R) Core(TM) i7-2600 CPU @ 3.40GHz, ProcessorCount=8
 
-CLR=MS.NET 4.0.30319.42000, Arch=64-bit  [RyuJIT] Common:  Type=Program  Mode=Throughput  Platform=CurrentPlatform  Jit=CurrentJit .NET=Current
+// CLR=MS.NET 4.0.30319.42000, Arch=64-bit  [RyuJIT] Common:  Type=Program  Mode=Throughput  Platform=CurrentPlatform  Jit=RyuJit  .NET=Current
 
                             Method |   AvrTime |      StdDev |         op/s |
 ---------------------------------- |---------- |------------ |------------- |
-              CachedComparerEquals |  11.20 ns | 0.000000 ns |  89294480.08 |
-         CachedComparerGetHashCode |  10.48 ns | 0.000000 ns |  95386376.18 |
-             DictionaryContainsKey | 151.60 ns | 0.000000 ns |   6596258.35 |
-                  DictionaryExpand | 363.85 ns | 0.000000 ns |   2748395.26 |
-                      DirectEquals |   7.86 ns | 0.000000 ns |  127242954.3 |
-                ImpovedTupleEquals |  10.24 ns | 0.000000 ns |  97647843.96 |
-  ImpovedTupleEqualsCachedComparer |  16.79 ns | 0.000000 ns |  59554545.99 |
-           ImpovedTupleGetHashCode |  15.68 ns | 0.000000 ns |  63781604.12 |
-     ImprovedDictionaryContainsKey |  49.47 ns | 0.000000 ns |  20215787.68 |
-          ImprovedDictionaryExpand | 132.82 ns | 0.000000 ns |   7528829.86 |
-       StringDictionaryContainsKey |  21.46 ns | 0.000000 ns |  46600174.53 |
-       StructDictionaryContainsKey |  51.65 ns | 0.000000 ns |  19361292.02 |
-            StructDictionaryExpand |  90.07 ns | 0.000000 ns |  11102336.58 |
-                 StructTupleEquals |   9.77 ns | 0.000000 ns | 102362671.92 |
-   StructTupleEqualsCachedComparer |  24.96 ns | 0.000000 ns |  40067949.52 |
- StructTupleEqualsExplicitComparer |  23.74 ns | 0.000000 ns |  42116043.34 |
-            StructTupleGetHashCode |  11.96 ns | 0.000000 ns |  83609092.64 |
-                       TupleEquals |  60.26 ns | 0.000000 ns |  16593525.13 |
-         TupleEqualsCachedComparer |  61.91 ns | 0.000000 ns |   16151838.3 |
-                  TupleGetHashCode |  65.07 ns | 0.000000 ns |  15366979.23 |
+          BigDictionaryContainsKey | 179.97 ns | 0.000000 ns |   5556351.29 |
+  BigImprovedDictionaryContainsKey |  58.85 ns | 0.000000 ns |  16992109.99 |
+    BigStructDictionaryContainsKey |  57.45 ns | 0.000000 ns |  17407663.04 |
+              CachedComparerEquals |  13.49 ns | 0.000000 ns |  74115330.91 |
+         CachedComparerGetHashCode |  12.63 ns | 0.000000 ns |   79184921.1 |
+             DictionaryContainsKey | 176.47 ns | 0.000000 ns |    5666589.6 |
+                  DictionaryExpand | 348.90 ns | 0.000000 ns |   2866121.83 |
+                      DirectEquals |   9.46 ns | 0.000000 ns | 105674608.21 |
+                ImpovedTupleEquals |  11.78 ns | 0.000000 ns |   84897714.9 |
+  ImpovedTupleEqualsCachedComparer |  20.15 ns | 0.000000 ns |  49616942.58 |
+           ImpovedTupleGetHashCode |  20.23 ns | 0.000000 ns |  49420273.45 |
+     ImprovedDictionaryContainsKey |  59.42 ns | 0.000000 ns |  16829961.01 |
+          ImprovedDictionaryExpand | 199.97 ns | 0.000000 ns |   5000688.69 |
+       StringDictionaryContainsKey |  25.84 ns | 0.000000 ns |  38703609.23 |
+       StructDictionaryContainsKey |  63.07 ns | 0.000000 ns |  15854490.42 |
+            StructDictionaryExpand | 109.49 ns | 0.000000 ns |   9133050.18 |
+                 StructTupleEquals |  12.02 ns | 0.000000 ns |  83179495.61 |
+   StructTupleEqualsCachedComparer |  28.08 ns | 0.000000 ns |  35615922.74 |
+ StructTupleEqualsExplicitComparer |  26.68 ns | 0.000000 ns |  37482496.73 |
+            StructTupleGetHashCode |  12.11 ns | 0.000000 ns |  82605493.66 |
+                       TupleEquals |  72.22 ns | 0.000000 ns |  13847016.26 |
+         TupleEqualsCachedComparer |  75.16 ns | 0.000000 ns |  13304597.74 |
+                  TupleGetHashCode |  74.43 ns | 0.000000 ns |  13435734.25 |
